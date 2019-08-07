@@ -242,7 +242,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -303,6 +305,16 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArmyViewer.Data\ArmyViewer.Data.csproj">
+      <Project>{ffeb60ce-c22a-4926-83a9-d7365f30679d}</Project>
+      <Name>ArmyViewer.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArmyViewer.Service\ArmyViewer.Service.csproj">
+      <Project>{161582ac-262e-490b-b165-11e962ffed10}</Project>
+      <Name>ArmyViewer.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
