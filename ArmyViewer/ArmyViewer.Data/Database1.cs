@@ -32,11 +32,12 @@
 namespace ArmyViewer.Data
 {
     using ArmyViewer.Web.Models;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System.Linq;
 
     #region Unit of work
 
-    public interface IBattleHubContext : System.IDisposable
+    public interface IMyDbContext : System.IDisposable
     {
         System.Data.Entity.DbSet<AspNetRole> AspNetRoles { get; set; } // AspNetRoles
         System.Data.Entity.DbSet<AspNetUser> AspNetUsers { get; set; } // AspNetUsers
@@ -64,7 +65,7 @@ namespace ArmyViewer.Data
     #region Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class BattleHubContext : IdentityDbContext<ApplicationUser>, IBattleHubContext
+    public class MyDbContext : IdentityDbContext<ApplicationUser>, IMyDbContext
     {
         public System.Data.Entity.DbSet<AspNetRole> AspNetRoles { get; set; } // AspNetRoles
         public System.Data.Entity.DbSet<AspNetUser> AspNetUsers { get; set; } // AspNetUsers
@@ -73,32 +74,32 @@ namespace ArmyViewer.Data
         public System.Data.Entity.DbSet<Battle> Battles { get; set; } // Battle
         public System.Data.Entity.DbSet<sys_DatabaseFirewallRule> sys_DatabaseFirewallRules { get; set; } // database_firewall_rules
 
-        static BattleHubContext()
+        static MyDbContext()
         {
-            System.Data.Entity.Database.SetInitializer<BattleHubContext>(null);
+            System.Data.Entity.Database.SetInitializer<MyDbContext>(null);
         }
 
-        public BattleHubContext()
+        public MyDbContext()
             : base("Name=DefaultConnection")
         {
         }
 
-        public BattleHubContext(string connectionString)
+        public MyDbContext(string connectionString)
             : base(connectionString)
         {
         }
 
-        public BattleHubContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
+        public MyDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
             : base(connectionString, model)
         {
         }
 
-        public BattleHubContext(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection)
+        public MyDbContext(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection)
             : base(existingConnection, contextOwnsConnection)
         {
         }
 
-        public BattleHubContext(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection)
+        public MyDbContext(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection)
             : base(existingConnection, model, contextOwnsConnection)
         {
         }
@@ -144,11 +145,11 @@ namespace ArmyViewer.Data
 
     #region Database context factory
 
-    public class BattleHubContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<BattleHubContext>
+    public class MyDbContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<MyDbContext>
     {
-        public BattleHubContext Create()
+        public MyDbContext Create()
         {
-            return new BattleHubContext();
+            return new MyDbContext();
         }
     }
 
@@ -157,7 +158,7 @@ namespace ArmyViewer.Data
     #region Fake Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeBattleHubContext : IBattleHubContext
+    public class FakeMyDbContext : IMyDbContext
     {
         public System.Data.Entity.DbSet<AspNetRole> AspNetRoles { get; set; }
         public System.Data.Entity.DbSet<AspNetUser> AspNetUsers { get; set; }
@@ -166,7 +167,7 @@ namespace ArmyViewer.Data
         public System.Data.Entity.DbSet<Battle> Battles { get; set; }
         public System.Data.Entity.DbSet<sys_DatabaseFirewallRule> sys_DatabaseFirewallRules { get; set; }
 
-        public FakeBattleHubContext()
+        public FakeMyDbContext()
         {
             _changeTracker = null;
             _configuration = null;

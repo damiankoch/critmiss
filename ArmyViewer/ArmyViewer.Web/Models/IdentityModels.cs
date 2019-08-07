@@ -31,5 +31,7 @@ namespace ArmyViewer.Web.Models
         }
 
         public System.Data.Entity.DbSet<ArmyViewer.Web.Models.BattleViewModel> BattleViewModels { get; set; }
+
+        public System.Data.Entity.DbSet<ArmyViewer.Web.Models.BattleTurnViewModel> BattleTurnViewModels { get; set; }
     }
 }
