@@ -9,8 +9,7 @@
 // The following connection settings were used to generate this file:
 //     Configuration file:     "ArmyViewer.Web\Web.config"
 //     Connection String Name: "DefaultConnection"
-//     Connection String:      "Server=tcp:battle-hub.database.windows.net;Database=battle-hub;
-User ID=battle-hub-sa@battle-hub.database.windows.net;password=**zapped**;;Trusted_Connection=False;Encrypt=True;"
+//     Connection String:      "Server=tcp:battle-hub.database.windows.net;Database=battle-hub;User ID=battle-hub-sa@battle-hub.database.windows.net;password=**zapped**;;Trusted_Connection=False;Encrypt=True;"
 // ------------------------------------------------------------------------------------------------
 // Database Edition        : SQL Azure
 // Database Engine Edition : Azure
@@ -32,12 +31,17 @@ User ID=battle-hub-sa@battle-hub.database.windows.net;password=**zapped**;;Trust
 
 namespace ArmyViewer.Data
 {
+    using ArmyViewer.Web.Models;
     using System.Linq;
 
     #region Unit of work
 
-    public interface IMyDbContext : System.IDisposable
+    public interface IBattleHubContext : System.IDisposable
     {
+        System.Data.Entity.DbSet<AspNetRole> AspNetRoles { get; set; } // AspNetRoles
+        System.Data.Entity.DbSet<AspNetUser> AspNetUsers { get; set; } // AspNetUsers
+        System.Data.Entity.DbSet<AspNetUserClaim> AspNetUserClaims { get; set; } // AspNetUserClaims
+        System.Data.Entity.DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } // AspNetUserLogins
         System.Data.Entity.DbSet<Battle> Battles { get; set; } // Battle
         System.Data.Entity.DbSet<sys_DatabaseFirewallRule> sys_DatabaseFirewallRules { get; set; } // database_firewall_rules
 
@@ -60,37 +64,41 @@ namespace ArmyViewer.Data
     #region Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class MyDbContext : IdentityDbContext<ApplicationUser>, IMyDbContext
+    public class BattleHubContext : IdentityDbContext<ApplicationUser>, IBattleHubContext
     {
+        public System.Data.Entity.DbSet<AspNetRole> AspNetRoles { get; set; } // AspNetRoles
+        public System.Data.Entity.DbSet<AspNetUser> AspNetUsers { get; set; } // AspNetUsers
+        public System.Data.Entity.DbSet<AspNetUserClaim> AspNetUserClaims { get; set; } // AspNetUserClaims
+        public System.Data.Entity.DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } // AspNetUserLogins
         public System.Data.Entity.DbSet<Battle> Battles { get; set; } // Battle
         public System.Data.Entity.DbSet<sys_DatabaseFirewallRule> sys_DatabaseFirewallRules { get; set; } // database_firewall_rules
 
-        static MyDbContext()
+        static BattleHubContext()
         {
-            System.Data.Entity.Database.SetInitializer<MyDbContext>(null);
+            System.Data.Entity.Database.SetInitializer<BattleHubContext>(null);
         }
 
-        public MyDbContext()
+        public BattleHubContext()
             : base("Name=DefaultConnection")
         {
         }
 
-        public MyDbContext(string connectionString)
+        public BattleHubContext(string connectionString)
             : base(connectionString)
         {
         }
 
-        public MyDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
+        public BattleHubContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
             : base(connectionString, model)
         {
         }
 
-        public MyDbContext(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection)
+        public BattleHubContext(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection)
             : base(existingConnection, contextOwnsConnection)
         {
         }
 
-        public MyDbContext(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection)
+        public BattleHubContext(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection)
             : base(existingConnection, model, contextOwnsConnection)
         {
         }
@@ -113,12 +121,20 @@ namespace ArmyViewer.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Configurations.Add(new AspNetRoleConfiguration());
+            modelBuilder.Configurations.Add(new AspNetUserConfiguration());
+            modelBuilder.Configurations.Add(new AspNetUserClaimConfiguration());
+            modelBuilder.Configurations.Add(new AspNetUserLoginConfiguration());
             modelBuilder.Configurations.Add(new BattleConfiguration());
             modelBuilder.Configurations.Add(new sys_DatabaseFirewallRuleConfiguration());
         }
 
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
         {
+            modelBuilder.Configurations.Add(new AspNetRoleConfiguration(schema));
+            modelBuilder.Configurations.Add(new AspNetUserConfiguration(schema));
+            modelBuilder.Configurations.Add(new AspNetUserClaimConfiguration(schema));
+            modelBuilder.Configurations.Add(new AspNetUserLoginConfiguration(schema));
             modelBuilder.Configurations.Add(new BattleConfiguration(schema));
             modelBuilder.Configurations.Add(new sys_DatabaseFirewallRuleConfiguration(schema));
             return modelBuilder;
@@ -128,11 +144,11 @@ namespace ArmyViewer.Data
 
     #region Database context factory
 
-    public class MyDbContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<MyDbContext>
+    public class BattleHubContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<BattleHubContext>
     {
-        public MyDbContext Create()
+        public BattleHubContext Create()
         {
-            return new MyDbContext();
+            return new BattleHubContext();
         }
     }
 
@@ -141,17 +157,25 @@ namespace ArmyViewer.Data
     #region Fake Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeMyDbContext : IMyDbContext
+    public class FakeBattleHubContext : IBattleHubContext
     {
+        public System.Data.Entity.DbSet<AspNetRole> AspNetRoles { get; set; }
+        public System.Data.Entity.DbSet<AspNetUser> AspNetUsers { get; set; }
+        public System.Data.Entity.DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public System.Data.Entity.DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public System.Data.Entity.DbSet<Battle> Battles { get; set; }
         public System.Data.Entity.DbSet<sys_DatabaseFirewallRule> sys_DatabaseFirewallRules { get; set; }
 
-        public FakeMyDbContext()
+        public FakeBattleHubContext()
         {
             _changeTracker = null;
             _configuration = null;
             _database = null;
 
+            AspNetRoles = new FakeDbSet<AspNetRole>("Id");
+            AspNetUsers = new FakeDbSet<AspNetUser>("Id");
+            AspNetUserClaims = new FakeDbSet<AspNetUserClaim>("Id");
+            AspNetUserLogins = new FakeDbSet<AspNetUserLogin>("LoginProvider", "ProviderKey", "UserId");
             Battles = new FakeDbSet<Battle>("Id");
             sys_DatabaseFirewallRules = new FakeDbSet<sys_DatabaseFirewallRule>("Id", "Name", "StartIpAddress", "EndIpAddress", "CreateDate", "ModifyDate");
         }
@@ -482,6 +506,99 @@ namespace ArmyViewer.Data
 
     #region POCO classes
 
+    // AspNetRoles
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class AspNetRole
+    {
+        public string Id { get; set; } // Id (Primary key) (length: 128)
+        public string Name { get; set; } // Name (length: 256)
+
+        // Reverse navigation
+
+        /// <summary>
+        /// Child AspNetUsers (Many-to-Many) mapped by table [AspNetUserRoles]
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<AspNetUser> AspNetUsers { get; set; } // Many to many mapping
+
+        public AspNetRole()
+        {
+            AspNetUsers = new System.Collections.Generic.List<AspNetUser>();
+        }
+    }
+
+    // AspNetUsers
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class AspNetUser
+    {
+        public string Id { get; set; } // Id (Primary key) (length: 128)
+        public string Email { get; set; } // Email (length: 256)
+        public bool EmailConfirmed { get; set; } // EmailConfirmed
+        public string PasswordHash { get; set; } // PasswordHash
+        public string SecurityStamp { get; set; } // SecurityStamp
+        public string PhoneNumber { get; set; } // PhoneNumber
+        public bool PhoneNumberConfirmed { get; set; } // PhoneNumberConfirmed
+        public bool TwoFactorEnabled { get; set; } // TwoFactorEnabled
+        public System.DateTime? LockoutEndDateUtc { get; set; } // LockoutEndDateUtc
+        public bool LockoutEnabled { get; set; } // LockoutEnabled
+        public int AccessFailedCount { get; set; } // AccessFailedCount
+        public string UserName { get; set; } // UserName (length: 256)
+
+        // Reverse navigation
+
+        /// <summary>
+        /// Child AspNetRoles (Many-to-Many) mapped by table [AspNetUserRoles]
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<AspNetRole> AspNetRoles { get; set; } // Many to many mapping
+        /// <summary>
+        /// Child AspNetUserClaims where [AspNetUserClaims].[UserId] point to this entity (FK_dbo.AspNetUserClaims_dbo.AspNetUsers_UserId)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<AspNetUserClaim> AspNetUserClaims { get; set; } // AspNetUserClaims.FK_dbo.AspNetUserClaims_dbo.AspNetUsers_UserId
+        /// <summary>
+        /// Child AspNetUserLogins where [AspNetUserLogins].[UserId] point to this entity (FK_dbo.AspNetUserLogins_dbo.AspNetUsers_UserId)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<AspNetUserLogin> AspNetUserLogins { get; set; } // AspNetUserLogins.FK_dbo.AspNetUserLogins_dbo.AspNetUsers_UserId
+
+        public AspNetUser()
+        {
+            AspNetUserClaims = new System.Collections.Generic.List<AspNetUserClaim>();
+            AspNetUserLogins = new System.Collections.Generic.List<AspNetUserLogin>();
+            AspNetRoles = new System.Collections.Generic.List<AspNetRole>();
+        }
+    }
+
+    // AspNetUserClaims
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class AspNetUserClaim
+    {
+        public int Id { get; set; } // Id (Primary key)
+        public string UserId { get; set; } // UserId (length: 128)
+        public string ClaimType { get; set; } // ClaimType
+        public string ClaimValue { get; set; } // ClaimValue
+
+        // Foreign keys
+
+        /// <summary>
+        /// Parent AspNetUser pointed by [AspNetUserClaims].([UserId]) (FK_dbo.AspNetUserClaims_dbo.AspNetUsers_UserId)
+        /// </summary>
+        public virtual AspNetUser AspNetUser { get; set; } // FK_dbo.AspNetUserClaims_dbo.AspNetUsers_UserId
+    }
+
+    // AspNetUserLogins
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class AspNetUserLogin
+    {
+        public string LoginProvider { get; set; } // LoginProvider (Primary key) (length: 128)
+        public string ProviderKey { get; set; } // ProviderKey (Primary key) (length: 128)
+        public string UserId { get; set; } // UserId (Primary key) (length: 128)
+
+        // Foreign keys
+
+        /// <summary>
+        /// Parent AspNetUser pointed by [AspNetUserLogins].([UserId]) (FK_dbo.AspNetUserLogins_dbo.AspNetUsers_UserId)
+        /// </summary>
+        public virtual AspNetUser AspNetUser { get; set; } // FK_dbo.AspNetUserLogins_dbo.AspNetUsers_UserId
+    }
+
     // Battle
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
     public class Battle
@@ -520,6 +637,107 @@ namespace ArmyViewer.Data
     #endregion
 
     #region POCO Configuration
+
+    // AspNetRoles
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class AspNetRoleConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<AspNetRole>
+    {
+        public AspNetRoleConfiguration()
+            : this("dbo")
+        {
+        }
+
+        public AspNetRoleConfiguration(string schema)
+        {
+            ToTable("AspNetRoles", schema);
+            HasKey(x => x.Id);
+
+            Property(x => x.Id).HasColumnName(@"Id").HasColumnType("nvarchar").IsRequired().HasMaxLength(128).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+            Property(x => x.Name).HasColumnName(@"Name").HasColumnType("nvarchar").IsRequired().HasMaxLength(256);
+            HasMany(t => t.AspNetUsers).WithMany(t => t.AspNetRoles).Map(m =>
+            {
+                m.ToTable("AspNetUserRoles", "dbo");
+                m.MapLeftKey("RoleId");
+                m.MapRightKey("UserId");
+            });
+        }
+    }
+
+    // AspNetUsers
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class AspNetUserConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<AspNetUser>
+    {
+        public AspNetUserConfiguration()
+            : this("dbo")
+        {
+        }
+
+        public AspNetUserConfiguration(string schema)
+        {
+            ToTable("AspNetUsers", schema);
+            HasKey(x => x.Id);
+
+            Property(x => x.Id).HasColumnName(@"Id").HasColumnType("nvarchar").IsRequired().HasMaxLength(128).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+            Property(x => x.Email).HasColumnName(@"Email").HasColumnType("nvarchar").IsOptional().HasMaxLength(256);
+            Property(x => x.EmailConfirmed).HasColumnName(@"EmailConfirmed").HasColumnType("bit").IsRequired();
+            Property(x => x.PasswordHash).HasColumnName(@"PasswordHash").HasColumnType("nvarchar(max)").IsOptional();
+            Property(x => x.SecurityStamp).HasColumnName(@"SecurityStamp").HasColumnType("nvarchar(max)").IsOptional();
+            Property(x => x.PhoneNumber).HasColumnName(@"PhoneNumber").HasColumnType("nvarchar(max)").IsOptional();
+            Property(x => x.PhoneNumberConfirmed).HasColumnName(@"PhoneNumberConfirmed").HasColumnType("bit").IsRequired();
+            Property(x => x.TwoFactorEnabled).HasColumnName(@"TwoFactorEnabled").HasColumnType("bit").IsRequired();
+            Property(x => x.LockoutEndDateUtc).HasColumnName(@"LockoutEndDateUtc").HasColumnType("datetime").IsOptional();
+            Property(x => x.LockoutEnabled).HasColumnName(@"LockoutEnabled").HasColumnType("bit").IsRequired();
+            Property(x => x.AccessFailedCount).HasColumnName(@"AccessFailedCount").HasColumnType("int").IsRequired();
+            Property(x => x.UserName).HasColumnName(@"UserName").HasColumnType("nvarchar").IsRequired().HasMaxLength(256);
+        }
+    }
+
+    // AspNetUserClaims
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class AspNetUserClaimConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<AspNetUserClaim>
+    {
+        public AspNetUserClaimConfiguration()
+            : this("dbo")
+        {
+        }
+
+        public AspNetUserClaimConfiguration(string schema)
+        {
+            ToTable("AspNetUserClaims", schema);
+            HasKey(x => x.Id);
+
+            Property(x => x.Id).HasColumnName(@"Id").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            Property(x => x.UserId).HasColumnName(@"UserId").HasColumnType("nvarchar").IsRequired().HasMaxLength(128);
+            Property(x => x.ClaimType).HasColumnName(@"ClaimType").HasColumnType("nvarchar(max)").IsOptional();
+            Property(x => x.ClaimValue).HasColumnName(@"ClaimValue").HasColumnType("nvarchar(max)").IsOptional();
+
+            // Foreign keys
+            HasRequired(a => a.AspNetUser).WithMany(b => b.AspNetUserClaims).HasForeignKey(c => c.UserId); // FK_dbo.AspNetUserClaims_dbo.AspNetUsers_UserId
+        }
+    }
+
+    // AspNetUserLogins
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class AspNetUserLoginConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<AspNetUserLogin>
+    {
+        public AspNetUserLoginConfiguration()
+            : this("dbo")
+        {
+        }
+
+        public AspNetUserLoginConfiguration(string schema)
+        {
+            ToTable("AspNetUserLogins", schema);
+            HasKey(x => new { x.LoginProvider, x.ProviderKey, x.UserId });
+
+            Property(x => x.LoginProvider).HasColumnName(@"LoginProvider").HasColumnType("nvarchar").IsRequired().HasMaxLength(128).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+            Property(x => x.ProviderKey).HasColumnName(@"ProviderKey").HasColumnType("nvarchar").IsRequired().HasMaxLength(128).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+            Property(x => x.UserId).HasColumnName(@"UserId").HasColumnType("nvarchar").IsRequired().HasMaxLength(128).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+
+            // Foreign keys
+            HasRequired(a => a.AspNetUser).WithMany(b => b.AspNetUserLogins).HasForeignKey(c => c.UserId); // FK_dbo.AspNetUserLogins_dbo.AspNetUsers_UserId
+        }
+    }
 
     // Battle
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
