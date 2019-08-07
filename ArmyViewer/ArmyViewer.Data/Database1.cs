@@ -31,8 +31,6 @@
 
 namespace ArmyViewer.Data
 {
-    using ArmyViewer.Web.Models;
-    using Microsoft.AspNet.Identity.EntityFramework;
     using System.Linq;
 
     #region Unit of work

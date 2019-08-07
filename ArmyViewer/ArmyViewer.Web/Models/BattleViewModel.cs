@@ -17,5 +17,6 @@ namespace ArmyViewer.Web.Models
         public string CreatorYTProfile { get; set; }
         public int CreatorId { get; set; }
         public int UserId { get; set; }
+        public List<BattleTurnViewModel> Turns { get; set; }
     }
 }
