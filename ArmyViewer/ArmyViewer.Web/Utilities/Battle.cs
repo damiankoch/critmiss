@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ArmyViewer.Web.Utilities
 {
-    public class Battle
+    public class Utilities
     {
         public static string ProcessYouTubeLink(string Url)
         {

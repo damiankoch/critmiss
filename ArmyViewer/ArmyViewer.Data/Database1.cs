@@ -43,6 +43,7 @@ namespace ArmyViewer.Data
         System.Data.Entity.DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } // AspNetUserLogins
         System.Data.Entity.DbSet<Battle> Battles { get; set; } // Battle
         System.Data.Entity.DbSet<sys_DatabaseFirewallRule> sys_DatabaseFirewallRules { get; set; } // database_firewall_rules
+        System.Data.Entity.DbSet<User> Users { get; set; } // User
 
         int SaveChanges();
         System.Threading.Tasks.Task<int> SaveChangesAsync();
@@ -71,6 +72,7 @@ namespace ArmyViewer.Data
         public System.Data.Entity.DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } // AspNetUserLogins
         public System.Data.Entity.DbSet<Battle> Battles { get; set; } // Battle
         public System.Data.Entity.DbSet<sys_DatabaseFirewallRule> sys_DatabaseFirewallRules { get; set; } // database_firewall_rules
+        public System.Data.Entity.DbSet<User> Users { get; set; } // User
 
         static BattleHubContext()
         {
@@ -126,6 +128,7 @@ namespace ArmyViewer.Data
             modelBuilder.Configurations.Add(new AspNetUserLoginConfiguration());
             modelBuilder.Configurations.Add(new BattleConfiguration());
             modelBuilder.Configurations.Add(new sys_DatabaseFirewallRuleConfiguration());
+            modelBuilder.Configurations.Add(new UserConfiguration());
         }
 
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
@@ -136,6 +139,7 @@ namespace ArmyViewer.Data
             modelBuilder.Configurations.Add(new AspNetUserLoginConfiguration(schema));
             modelBuilder.Configurations.Add(new BattleConfiguration(schema));
             modelBuilder.Configurations.Add(new sys_DatabaseFirewallRuleConfiguration(schema));
+            modelBuilder.Configurations.Add(new UserConfiguration(schema));
             return modelBuilder;
         }
     }
@@ -164,6 +168,7 @@ namespace ArmyViewer.Data
         public System.Data.Entity.DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public System.Data.Entity.DbSet<Battle> Battles { get; set; }
         public System.Data.Entity.DbSet<sys_DatabaseFirewallRule> sys_DatabaseFirewallRules { get; set; }
+        public System.Data.Entity.DbSet<User> Users { get; set; }
 
         public FakeBattleHubContext()
         {
@@ -177,6 +182,7 @@ namespace ArmyViewer.Data
             AspNetUserLogins = new FakeDbSet<AspNetUserLogin>("LoginProvider", "ProviderKey", "UserId");
             Battles = new FakeDbSet<Battle>("Id");
             sys_DatabaseFirewallRules = new FakeDbSet<sys_DatabaseFirewallRule>("Id", "Name", "StartIpAddress", "EndIpAddress", "CreateDate", "ModifyDate");
+            Users = new FakeDbSet<User>("Id");
         }
 
         public int SaveChangesCount { get; private set; }
@@ -556,11 +562,16 @@ namespace ArmyViewer.Data
         /// Child AspNetUserLogins where [AspNetUserLogins].[UserId] point to this entity (FK_dbo.AspNetUserLogins_dbo.AspNetUsers_UserId)
         /// </summary>
         public virtual System.Collections.Generic.ICollection<AspNetUserLogin> AspNetUserLogins { get; set; } // AspNetUserLogins.FK_dbo.AspNetUserLogins_dbo.AspNetUsers_UserId
+        /// <summary>
+        /// Child Users where [User].[AspNetUserId] point to this entity (FK_User_AspNetUsers)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<User> Users { get; set; } // User.FK_User_AspNetUsers
 
         public AspNetUser()
         {
             AspNetUserClaims = new System.Collections.Generic.List<AspNetUserClaim>();
             AspNetUserLogins = new System.Collections.Generic.List<AspNetUserLogin>();
+            Users = new System.Collections.Generic.List<User>();
             AspNetRoles = new System.Collections.Generic.List<AspNetRole>();
         }
     }
@@ -602,20 +613,21 @@ namespace ArmyViewer.Data
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
     public class Battle: ArmyViewer.Data.Interfaces.IBattleHubEntity
     {
-        public int Id { get; set; } // Id (Primary key)
+        public string Id { get; set; } // Id (Primary key) (length: 128)
         public string Name { get; set; } // Name (length: 250)
         public string Description { get; set; } // Description
-        public string Link { get; set; } // Link (length: 255)
-        public int CreatedBy { get; set; } // CreatedBy
+        public string YouTubeUrl { get; set; } // YouTubeUrl (length: 255)
+        public string CreatedBy { get; set; } // CreatedBy (length: 128)
         public System.DateTime CreatedOn { get; set; } // CreatedOn
-        public int? ModifiedBy { get; set; } // ModifiedBy
+        public string ModifiedBy { get; set; } // ModifiedBy (length: 128)
         public System.DateTime? ModifiedOn { get; set; } // ModifiedOn
-        public int? DeletedBy { get; set; } // DeletedBy
+        public string DeletedBy { get; set; } // DeletedBy (length: 128)
         public System.DateTime? DeletedOn { get; set; } // DeletedOn
         public int Status { get; set; } // Status
 
         public Battle()
         {
+            Id = System.Guid.NewGuid().ToString();
             CreatedOn = System.DateTime.Now;
             Status = 1;
         }
@@ -631,6 +643,39 @@ namespace ArmyViewer.Data
         public string EndIpAddress { get; set; } // end_ip_address (Primary key) (length: 45)
         public System.DateTime CreateDate { get; set; } // create_date (Primary key)
         public System.DateTime ModifyDate { get; set; } // modify_date (Primary key)
+    }
+
+    // User
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class User: ArmyViewer.Data.Interfaces.IBattleHubEntity
+    {
+        public string Id { get; set; } // Id (Primary key) (length: 128)
+        public string AspNetUserId { get; set; } // AspNetUserId (length: 128)
+        public string FirstName { get; set; } // FirstName (length: 255)
+        public string LastName { get; set; } // LastName (length: 255)
+        public string YouTubeUrl { get; set; } // YouTubeUrl (length: 255)
+        public string TwitchUrl { get; set; } // TwitchUrl (length: 255)
+        public string CreatedBy { get; set; } // CreatedBy (length: 128)
+        public System.DateTime CreatedOn { get; set; } // CreatedOn
+        public string ModifiedBy { get; set; } // ModifiedBy (length: 128)
+        public System.DateTime? ModifiedOn { get; set; } // ModifiedOn
+        public string DeletedBy { get; set; } // DeletedBy (length: 128)
+        public System.DateTime? DeletedOn { get; set; } // DeletedOn
+        public int Status { get; set; } // Status
+
+        // Foreign keys
+
+        /// <summary>
+        /// Parent AspNetUser pointed by [User].([AspNetUserId]) (FK_User_AspNetUsers)
+        /// </summary>
+        public virtual AspNetUser AspNetUser { get; set; } // FK_User_AspNetUsers
+
+        public User()
+        {
+            Id = System.Guid.NewGuid().ToString();
+            CreatedOn = System.DateTime.Now;
+            Status = 1;
+        }
     }
 
     #endregion
@@ -752,15 +797,15 @@ namespace ArmyViewer.Data
             ToTable("Battle", schema);
             HasKey(x => x.Id);
 
-            Property(x => x.Id).HasColumnName(@"Id").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+            Property(x => x.Id).HasColumnName(@"Id").HasColumnType("nvarchar").IsRequired().HasMaxLength(128).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
             Property(x => x.Name).HasColumnName(@"Name").HasColumnType("nvarchar").IsRequired().HasMaxLength(250);
             Property(x => x.Description).HasColumnName(@"Description").HasColumnType("nvarchar(max)").IsOptional();
-            Property(x => x.Link).HasColumnName(@"Link").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
-            Property(x => x.CreatedBy).HasColumnName(@"CreatedBy").HasColumnType("int").IsRequired();
+            Property(x => x.YouTubeUrl).HasColumnName(@"YouTubeUrl").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
+            Property(x => x.CreatedBy).HasColumnName(@"CreatedBy").HasColumnType("nvarchar").IsRequired().HasMaxLength(128);
             Property(x => x.CreatedOn).HasColumnName(@"CreatedOn").HasColumnType("datetime2").IsRequired();
-            Property(x => x.ModifiedBy).HasColumnName(@"ModifiedBy").HasColumnType("int").IsOptional();
+            Property(x => x.ModifiedBy).HasColumnName(@"ModifiedBy").HasColumnType("nvarchar").IsOptional().HasMaxLength(128);
             Property(x => x.ModifiedOn).HasColumnName(@"ModifiedOn").HasColumnType("datetime2").IsOptional();
-            Property(x => x.DeletedBy).HasColumnName(@"DeletedBy").HasColumnType("int").IsOptional();
+            Property(x => x.DeletedBy).HasColumnName(@"DeletedBy").HasColumnType("nvarchar").IsOptional().HasMaxLength(128);
             Property(x => x.DeletedOn).HasColumnName(@"DeletedOn").HasColumnType("datetime2").IsOptional();
             Property(x => x.Status).HasColumnName(@"Status").HasColumnType("int").IsRequired();
         }
@@ -786,6 +831,39 @@ namespace ArmyViewer.Data
             Property(x => x.EndIpAddress).HasColumnName(@"end_ip_address").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(45).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
             Property(x => x.CreateDate).HasColumnName(@"create_date").HasColumnType("datetime").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
             Property(x => x.ModifyDate).HasColumnName(@"modify_date").HasColumnType("datetime").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+        }
+    }
+
+    // User
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class UserConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<User>
+    {
+        public UserConfiguration()
+            : this("dbo")
+        {
+        }
+
+        public UserConfiguration(string schema)
+        {
+            ToTable("User", schema);
+            HasKey(x => x.Id);
+
+            Property(x => x.Id).HasColumnName(@"Id").HasColumnType("nvarchar").IsRequired().HasMaxLength(128).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+            Property(x => x.AspNetUserId).HasColumnName(@"AspNetUserId").HasColumnType("nvarchar").IsRequired().HasMaxLength(128);
+            Property(x => x.FirstName).HasColumnName(@"FirstName").HasColumnType("nvarchar").IsRequired().HasMaxLength(255);
+            Property(x => x.LastName).HasColumnName(@"LastName").HasColumnType("nvarchar").IsRequired().HasMaxLength(255);
+            Property(x => x.YouTubeUrl).HasColumnName(@"YouTubeUrl").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
+            Property(x => x.TwitchUrl).HasColumnName(@"TwitchUrl").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
+            Property(x => x.CreatedBy).HasColumnName(@"CreatedBy").HasColumnType("nvarchar").IsRequired().HasMaxLength(128);
+            Property(x => x.CreatedOn).HasColumnName(@"CreatedOn").HasColumnType("datetime2").IsRequired();
+            Property(x => x.ModifiedBy).HasColumnName(@"ModifiedBy").HasColumnType("nvarchar").IsOptional().HasMaxLength(128);
+            Property(x => x.ModifiedOn).HasColumnName(@"ModifiedOn").HasColumnType("datetime2").IsOptional();
+            Property(x => x.DeletedBy).HasColumnName(@"DeletedBy").HasColumnType("nvarchar").IsOptional().HasMaxLength(128);
+            Property(x => x.DeletedOn).HasColumnName(@"DeletedOn").HasColumnType("datetime2").IsOptional();
+            Property(x => x.Status).HasColumnName(@"Status").HasColumnType("int").IsRequired();
+
+            // Foreign keys
+            HasRequired(a => a.AspNetUser).WithMany(b => b.Users).HasForeignKey(c => c.AspNetUserId).WillCascadeOnDelete(false); // FK_User_AspNetUsers
         }
     }
 

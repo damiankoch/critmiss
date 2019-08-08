@@ -5,48 +5,40 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ArmyViewer.Web.Utilities;
+using ArmyViewer.Service;
 
 namespace ArmyViewer.Web.Controllers
 {
     public class BattleController : Controller
     {
         // GET: Battle
-        public ActionResult Index()
+        public ActionResult Index(string Id)
         {
-            //ApplicationDbContext context = new ApplicationDbContext();
-
-            string newUrl = Battle.ProcessYouTubeLink("https://www.youtube.com/watch?v=9f_k7_P3-nA");
-
-            BattleViewModel battle = new BattleViewModel
+            if(Id == "")
             {
-                CreatorId = 1,
-                CreatorName = "Andrew",
-                CreatorYTProfile = "https://youtube.com/DudePerfect",
-                Description = "Test description",
-                Name = "Test Battle",
-                YTLink = newUrl
-            };
+                string newUrl = Utilities.Utilities.ProcessYouTubeLink("https://www.youtube.com/watch?v=9f_k7_P3-nA");
 
-            return View(battle);
+                BattleViewModel viewModel = new BattleViewModel
+                {
+                    CreatorId = "fdsafsdfasdfsad",
+                    CreatorName = "Andrew",
+                    CreatorYTProfile = "https://youtube.com/DudePerfect",
+                    Description = "Test description",
+                    Name = "Test Battle",
+                    YTLink = newUrl
+                };
+
+                return View(viewModel);
+            }
+
+            var battle = new BattleService(Account.GetUserId()).GetById(Id);
+
+            if(battle != null)
+            {
+                return View(battle.ToViewModel());
+            }
+
+            return RedirectToAction("Index", "Home");
         }
-
-        //public ActionResult Index(int Id)
-        //{
-        //    //ApplicationDbContext context = new ApplicationDbContext();
-
-        //    string newUrl = Battle.ProcessYouTubeLink("https://www.youtube.com/watch?v=9f_k7_P3-nA");
-
-        //    BattleViewModel battle = new BattleViewModel
-        //    {
-        //        CreatorId = 1,
-        //        CreatorName = "Andrew",
-        //        CreatorYTProfile = "https://youtube.com/DudePerfect",
-        //        Description = "Test description",
-        //        Name = "Test Battle",
-        //        YTLink = newUrl
-        //    };
-
-        //    return View(battle);
-        //}
     }
 }
