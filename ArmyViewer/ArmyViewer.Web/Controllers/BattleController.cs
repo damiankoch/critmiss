@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using ArmyViewer.Web.Utilities;
 using ArmyViewer.Service;
+using ArmyViewer.Data;
 
 namespace ArmyViewer.Web.Controllers
 {
@@ -16,31 +17,31 @@ namespace ArmyViewer.Web.Controllers
         // GET: Battle
         public ActionResult Index(string Id)
         {
-            if(Id == "")
+            if (Id == "")
             {
                 string newUrl = Utilities.Utilities.ProcessYouTubeLink("https://www.youtube.com/watch?v=9f_k7_P3-nA");
 
-            string newUrl = Battle.ProcessYouTubeLink("https://www.youtube.com/watch?v=9f_k7_P3-nA");
 
-            BattleViewModel battle = new BattleViewModel
-            {
-                CreatorId = 1,
-                CreatorName = "Andrew",
-                CreatorYTProfile = "https://youtube.com/DudePerfect",
-                Description = "Test description",
-                Name = "Test Battle",
-                YTLink = newUrl
-            };
+                BattleViewModel viewModel = new BattleViewModel
+                {
+                    CreatorId = 1,
+                    CreatorName = "Andrew",
+                    CreatorYTProfile = "https://youtube.com/DudePerfect",
+                    Description = "Test description",
+                    Name = "Test Battle",
+                    YTLink = newUrl
+                };
 
                 return View(viewModel);
             }
 
             var battle = new BattleService(Account.GetUserId()).GetById(Id);
 
-            if(battle != null)
+            if (battle != null)
             {
                 return View(battle.ToViewModel());
             }
+        }
 
         //    BattleViewModel battle = new BattleViewModel
         //    {
