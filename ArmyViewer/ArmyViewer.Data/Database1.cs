@@ -611,7 +611,7 @@ namespace ArmyViewer.Data
 
     // Battle
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Battle
+    public class Battle: ArmyViewer.Data.Interfaces.IBattleHubEntity
     {
         public string Id { get; set; } // Id (Primary key) (length: 128)
         public string Name { get; set; } // Name (length: 250)

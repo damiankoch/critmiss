@@ -432,7 +432,7 @@
 		var statusCol = t.Columns.Where(x => x.Name.ToLower() == "status").FirstOrDefault();
 		var hasCreatedCols = t.Columns.Where(x => x.Name.ToLower() == "createdby").Any() && t.Columns.Where(x => x.Name.ToLower() == "createdon").Any();
 		var hasModifiedCols = t.Columns.Where(x => x.Name.ToLower() == "modifiedby").Any() && t.Columns.Where(x => x.Name.ToLower() == "modifiedon").Any();
-		var hasDeletedCols = t.Columns.Where(x => x.Name.ToLower() == "deltedby").Any() && t.Columns.Where(x => x.Name.ToLower() == "deletedon").Any();
+		var hasDeletedCols = t.Columns.Where(x => x.Name.ToLower() == "deletedby").Any() && t.Columns.Where(x => x.Name.ToLower() == "deletedon").Any();
 		if(statusCol != null && hasCreatedCols && hasModifiedCols && hasDeletedCols){
 			iList.Add(string.Format("{0}.{1}", iNamespace, "IBattleHubEntity"));
 		}
