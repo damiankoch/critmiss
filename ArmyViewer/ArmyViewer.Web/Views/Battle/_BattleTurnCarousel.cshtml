@@ -1,0 +1,5 @@
+﻿@model  ArmyViewer.Web.Models.BattleTurnViewModel
+
+<h2>Turn @Html.DisplayFor(model => model.TurnNumber)</h2>
+
+@Html.Raw(Model.HtmlRenderedDescription)

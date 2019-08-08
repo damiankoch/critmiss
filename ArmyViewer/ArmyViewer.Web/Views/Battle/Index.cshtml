@@ -14,15 +14,41 @@
 
 <div id="turnsCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
-        @for(int i = 0; i < Model.Turns.Count; i++)
+        @for (int i = 0; i < Model.Turns.Count; i++)
         {
-            <li data-target="#turnsCarousel" data-slide-to="@i" @if () {  }></li>
+            if (i != 0)
+            {
+                <li data-target="#turnsCarousel" data-slide-to="@i"></li>
+            }
+            else
+            {
+                <li data-target="#turnsCarousel" data-slide-to="@i" class="active"></li>
+            }
         }
-        <li data-target="#turnsCarousel" data-slide-to="0" class="active"></li>
+
+        @*<li data-target="#turnsCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#turnsCarousel" data-slide-to="1"></li>
-        <li data-target="#turnsCarousel" data-slide-to="2"></li>
+        <li data-target="#turnsCarousel" data-slide-to="2"></li>*@
+
     </ol>
     <div class="carousel-inner">
+
+        @for (int i = 0; i < Model.Turns.Count; i++)
+        {
+            @if (i != 0)
+            {
+                <div class="carousel-item active">
+                    @Html.Partial("_BattleTurnCarousel", Model.Turns.ElementAt(i))
+                </div>
+            }
+            else
+            {
+                <div class="carousel-item">
+                    @Html.Partial("_BattleTurnCarousel", Model.Turns.ElementAt(i))
+                </div>
+            }
+        }
+
         <div class="carousel-item active">
             <img class="d-block w-100" src="..." alt="First slide">
         </div>
@@ -33,6 +59,7 @@
             <img class="d-block w-100" src="..." alt="Third slide">
         </div>
     </div>
+
     <a class="carousel-control-prev" href="#turnsCarousel" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
