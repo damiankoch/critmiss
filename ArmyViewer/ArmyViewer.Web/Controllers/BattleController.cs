@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ArmyViewer.Web.Utilities;
+using ArmyViewer.Service;
 
 namespace ArmyViewer.Web.Controllers
 {
@@ -13,15 +14,17 @@ namespace ArmyViewer.Web.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Battle
-        public ActionResult Index()
+        public ActionResult Index(string Id)
         {
-            //ApplicationDbContext context = new ApplicationDbContext();
+            if(Id == "")
+            {
+                string newUrl = Utilities.Utilities.ProcessYouTubeLink("https://www.youtube.com/watch?v=9f_k7_P3-nA");
 
             string newUrl = Battle.ProcessYouTubeLink("https://www.youtube.com/watch?v=9f_k7_P3-nA");
 
             BattleViewModel battle = new BattleViewModel
             {
-                CreatorId = "baa8c12d-03be-4877-90a1-00fff0268354",
+                CreatorId = 1,
                 CreatorName = "Andrew",
                 CreatorYTProfile = "https://youtube.com/DudePerfect",
                 Description = "Test description",
@@ -29,14 +32,15 @@ namespace ArmyViewer.Web.Controllers
                 YTLink = newUrl
             };
 
-            return View(battle);
-        }
+                return View(viewModel);
+            }
 
-        //public ActionResult Index(int Id)
-        //{
-        //    //ApplicationDbContext context = new ApplicationDbContext();
+            var battle = new BattleService(Account.GetUserId()).GetById(Id);
 
-        //    string newUrl = Battle.ProcessYouTubeLink("https://www.youtube.com/watch?v=9f_k7_P3-nA");
+            if(battle != null)
+            {
+                return View(battle.ToViewModel());
+            }
 
         //    BattleViewModel battle = new BattleViewModel
         //    {

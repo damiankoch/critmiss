@@ -9,11 +9,11 @@ namespace ArmyViewer.Service
 {
     public class BattleService : BaseService<Data.Battle>
     {
-        public BattleService(int userId) : base(userId) { }
+        public BattleService(string userId) : base(userId) { }
 
-        public BattleService(int userId, BattleHubContext context) : base(userId, context) { }
+        public BattleService(string userId, BattleHubContext context) : base(userId, context) { }
 
-        public override Battle SaveProjection(Battle input)
+        public override void SaveProjection(ref Battle input, Battle output)
         {
             throw new NotImplementedException();
         }
