@@ -10,6 +10,8 @@ namespace ArmyViewer.Web.Controllers
 {
     public class BattleController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         // GET: Battle
         public ActionResult Index()
         {
@@ -19,7 +21,7 @@ namespace ArmyViewer.Web.Controllers
 
             BattleViewModel battle = new BattleViewModel
             {
-                CreatorId = 1,
+                CreatorId = "baa8c12d-03be-4877-90a1-00fff0268354",
                 CreatorName = "Andrew",
                 CreatorYTProfile = "https://youtube.com/DudePerfect",
                 Description = "Test description",
@@ -48,5 +50,26 @@ namespace ArmyViewer.Web.Controllers
 
         //    return View(battle);
         //}
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(BattleViewModel newBattle)
+        {
+            if (ModelState.IsValid)
+            {
+                db.BattleViewModels.Add(newBattle);
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(newBattle);
+            }
+        }
     }
 }

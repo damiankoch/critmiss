@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,7 @@ namespace ArmyViewer.Web.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        [DisplayName("YouTube Link")]
         public string YTLink { get; set; }
         public string CreatorName { get; set; }
         public string CreatorYTProfile { get; set; }

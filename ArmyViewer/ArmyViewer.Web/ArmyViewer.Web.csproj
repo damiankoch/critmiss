@@ -295,6 +295,7 @@
     <Content Include="Views\BattleTurn\Edit.cshtml" />
     <Content Include="Views\BattleTurn\Index.cshtml" />
     <Content Include="Views\Battle\_BattleTurnCarousel.cshtml" />
+    <Content Include="Views\Battle\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
