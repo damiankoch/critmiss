@@ -24,12 +24,12 @@ namespace ArmyViewer.Web.Controllers
 
                 BattleViewModel viewModel = new BattleViewModel
                 {
-                    CreatorId = 1,
+                    CreatorId = "",
                     CreatorName = "Andrew",
                     CreatorYTProfile = "https://youtube.com/DudePerfect",
                     Description = "Test description",
                     Name = "Test Battle",
-                    YTLink = newUrl
+                    YouTubeUrl = newUrl
                 };
 
                 return View(viewModel);
@@ -41,20 +41,9 @@ namespace ArmyViewer.Web.Controllers
             {
                 return View(battle.ToViewModel());
             }
+
+            return RedirectToAction("Index", "Home");
         }
-
-        //    BattleViewModel battle = new BattleViewModel
-        //    {
-        //        CreatorId = 1,
-        //        CreatorName = "Andrew",
-        //        CreatorYTProfile = "https://youtube.com/DudePerfect",
-        //        Description = "Test description",
-        //        Name = "Test Battle",
-        //        YTLink = newUrl
-        //    };
-
-        //    return View(battle);
-        //}
 
         public ActionResult Create()
         {
@@ -66,8 +55,8 @@ namespace ArmyViewer.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.BattleViewModels.Add(newBattle);
-                db.SaveChanges();
+                var svc = new BattleService(Account.GetUserId());
+                svc.Insert(Mapper.ToDataModel(newBattle));
 
                 return RedirectToAction("Index");
             }

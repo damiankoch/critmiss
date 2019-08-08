@@ -14,7 +14,7 @@ namespace ArmyViewer.Web.Models
         public string Name { get; set; }
         public string Description { get; set; }
         [DisplayName("YouTube Link")]
-        public string YTLink { get; set; }
+        public string YouTubeUrl { get; set; }
         public string CreatorName { get; set; }
         public string CreatorYTProfile { get; set; }
         public string CreatorId { get; set; }

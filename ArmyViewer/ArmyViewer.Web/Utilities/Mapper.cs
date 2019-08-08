@@ -23,9 +23,21 @@ namespace ArmyViewer.Web.Utilities
             viewModel.Name = model.Name;
             viewModel.Id = model.Id;
             viewModel.UserId = model.CreatedBy;
-            viewModel.YTLink = model.YouTubeUrl;
+            viewModel.YouTubeUrl = model.YouTubeUrl;
 
             return viewModel;
+        }
+
+        public static Battle ToDataModel(this BattleViewModel viewModel)
+        {
+            var dataModel = new Battle
+            {
+                Description = viewModel.Description,
+                Name = viewModel.Name,
+                YouTubeUrl = viewModel.YouTubeUrl
+            };
+
+            return dataModel;
         }
 
         #endregion
