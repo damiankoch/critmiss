@@ -7,13 +7,12 @@ using System.Web.Mvc;
 using ArmyViewer.Web.Utilities;
 using ArmyViewer.Service;
 using ArmyViewer.Data;
+using System.Net;
 
 namespace ArmyViewer.Web.Controllers
 {
     public class BattleController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Battle
         public ActionResult Index(string Id)
         {
@@ -64,6 +63,17 @@ namespace ArmyViewer.Web.Controllers
             {
                 return View(newBattle);
             }
+        }
+
+        public ActionResult CreateBattleTurnPartial(BattleViewModel battleModel)
+        {
+            var model = new BattleTurnViewModel
+            {
+                Id = Guid.NewGuid().ToString(),
+                BattleId = battleModel.Id,
+                
+            };
+            return PartialView("_BattleTurnCreate", model);
         }
     }
 }

@@ -42,6 +42,7 @@ namespace ArmyViewer.Data
         System.Data.Entity.DbSet<AspNetUserClaim> AspNetUserClaims { get; set; } // AspNetUserClaims
         System.Data.Entity.DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } // AspNetUserLogins
         System.Data.Entity.DbSet<Battle> Battles { get; set; } // Battle
+        System.Data.Entity.DbSet<BattleTurn> BattleTurns { get; set; } // BattleTurn
         System.Data.Entity.DbSet<sys_DatabaseFirewallRule> sys_DatabaseFirewallRules { get; set; } // database_firewall_rules
         System.Data.Entity.DbSet<User> Users { get; set; } // User
 
@@ -71,6 +72,7 @@ namespace ArmyViewer.Data
         public System.Data.Entity.DbSet<AspNetUserClaim> AspNetUserClaims { get; set; } // AspNetUserClaims
         public System.Data.Entity.DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } // AspNetUserLogins
         public System.Data.Entity.DbSet<Battle> Battles { get; set; } // Battle
+        public System.Data.Entity.DbSet<BattleTurn> BattleTurns { get; set; } // BattleTurn
         public System.Data.Entity.DbSet<sys_DatabaseFirewallRule> sys_DatabaseFirewallRules { get; set; } // database_firewall_rules
         public System.Data.Entity.DbSet<User> Users { get; set; } // User
 
@@ -127,6 +129,7 @@ namespace ArmyViewer.Data
             modelBuilder.Configurations.Add(new AspNetUserClaimConfiguration());
             modelBuilder.Configurations.Add(new AspNetUserLoginConfiguration());
             modelBuilder.Configurations.Add(new BattleConfiguration());
+            modelBuilder.Configurations.Add(new BattleTurnConfiguration());
             modelBuilder.Configurations.Add(new sys_DatabaseFirewallRuleConfiguration());
             modelBuilder.Configurations.Add(new UserConfiguration());
         }
@@ -138,6 +141,7 @@ namespace ArmyViewer.Data
             modelBuilder.Configurations.Add(new AspNetUserClaimConfiguration(schema));
             modelBuilder.Configurations.Add(new AspNetUserLoginConfiguration(schema));
             modelBuilder.Configurations.Add(new BattleConfiguration(schema));
+            modelBuilder.Configurations.Add(new BattleTurnConfiguration(schema));
             modelBuilder.Configurations.Add(new sys_DatabaseFirewallRuleConfiguration(schema));
             modelBuilder.Configurations.Add(new UserConfiguration(schema));
             return modelBuilder;
@@ -167,6 +171,7 @@ namespace ArmyViewer.Data
         public System.Data.Entity.DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public System.Data.Entity.DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public System.Data.Entity.DbSet<Battle> Battles { get; set; }
+        public System.Data.Entity.DbSet<BattleTurn> BattleTurns { get; set; }
         public System.Data.Entity.DbSet<sys_DatabaseFirewallRule> sys_DatabaseFirewallRules { get; set; }
         public System.Data.Entity.DbSet<User> Users { get; set; }
 
@@ -181,6 +186,7 @@ namespace ArmyViewer.Data
             AspNetUserClaims = new FakeDbSet<AspNetUserClaim>("Id");
             AspNetUserLogins = new FakeDbSet<AspNetUserLogin>("LoginProvider", "ProviderKey", "UserId");
             Battles = new FakeDbSet<Battle>("Id");
+            BattleTurns = new FakeDbSet<BattleTurn>("Id");
             sys_DatabaseFirewallRules = new FakeDbSet<sys_DatabaseFirewallRule>("Id", "Name", "StartIpAddress", "EndIpAddress", "CreateDate", "ModifyDate");
             Users = new FakeDbSet<User>("Id");
         }
@@ -625,7 +631,48 @@ namespace ArmyViewer.Data
         public System.DateTime? DeletedOn { get; set; } // DeletedOn
         public int Status { get; set; } // Status
 
+        // Reverse navigation
+
+        /// <summary>
+        /// Child BattleTurns where [BattleTurn].[BattleId] point to this entity (FK_BattleTurn_Battle)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<BattleTurn> BattleTurns { get; set; } // BattleTurn.FK_BattleTurn_Battle
+
         public Battle()
+        {
+            Id = System.Guid.NewGuid().ToString();
+            CreatedOn = System.DateTime.Now;
+            Status = 1;
+            BattleTurns = new System.Collections.Generic.List<BattleTurn>();
+        }
+    }
+
+    // BattleTurn
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class BattleTurn: ArmyViewer.Data.Interfaces.IBattleHubEntity
+    {
+        public string Id { get; set; } // Id (Primary key) (length: 128)
+        public string BattleId { get; set; } // BattleId (length: 128)
+        public int TurnNumber { get; set; } // TurnNumber
+        public int YouTubeTimestamp { get; set; } // YouTubeTimestamp
+        public string Description { get; set; } // Description
+        public string HtmlRenderedDescription { get; set; } // HtmlRenderedDescription
+        public string CreatedBy { get; set; } // CreatedBy (length: 128)
+        public System.DateTime CreatedOn { get; set; } // CreatedOn
+        public string ModifiedBy { get; set; } // ModifiedBy (length: 128)
+        public System.DateTime? ModifiedOn { get; set; } // ModifiedOn
+        public string DeletedBy { get; set; } // DeletedBy (length: 128)
+        public System.DateTime? DeletedOn { get; set; } // DeletedOn
+        public int Status { get; set; } // Status
+
+        // Foreign keys
+
+        /// <summary>
+        /// Parent Battle pointed by [BattleTurn].([BattleId]) (FK_BattleTurn_Battle)
+        /// </summary>
+        public virtual Battle Battle { get; set; } // FK_BattleTurn_Battle
+
+        public BattleTurn()
         {
             Id = System.Guid.NewGuid().ToString();
             CreatedOn = System.DateTime.Now;
@@ -808,6 +855,39 @@ namespace ArmyViewer.Data
             Property(x => x.DeletedBy).HasColumnName(@"DeletedBy").HasColumnType("nvarchar").IsOptional().HasMaxLength(128);
             Property(x => x.DeletedOn).HasColumnName(@"DeletedOn").HasColumnType("datetime2").IsOptional();
             Property(x => x.Status).HasColumnName(@"Status").HasColumnType("int").IsRequired();
+        }
+    }
+
+    // BattleTurn
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
+    public class BattleTurnConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<BattleTurn>
+    {
+        public BattleTurnConfiguration()
+            : this("dbo")
+        {
+        }
+
+        public BattleTurnConfiguration(string schema)
+        {
+            ToTable("BattleTurn", schema);
+            HasKey(x => x.Id);
+
+            Property(x => x.Id).HasColumnName(@"Id").HasColumnType("nvarchar").IsRequired().HasMaxLength(128).HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+            Property(x => x.BattleId).HasColumnName(@"BattleId").HasColumnType("nvarchar").IsRequired().HasMaxLength(128);
+            Property(x => x.TurnNumber).HasColumnName(@"TurnNumber").HasColumnType("int").IsRequired();
+            Property(x => x.YouTubeTimestamp).HasColumnName(@"YouTubeTimestamp").HasColumnType("int").IsRequired();
+            Property(x => x.Description).HasColumnName(@"Description").HasColumnType("nvarchar(max)").IsOptional();
+            Property(x => x.HtmlRenderedDescription).HasColumnName(@"HtmlRenderedDescription").HasColumnType("nvarchar(max)").IsOptional();
+            Property(x => x.CreatedBy).HasColumnName(@"CreatedBy").HasColumnType("nvarchar").IsRequired().HasMaxLength(128);
+            Property(x => x.CreatedOn).HasColumnName(@"CreatedOn").HasColumnType("datetime2").IsRequired();
+            Property(x => x.ModifiedBy).HasColumnName(@"ModifiedBy").HasColumnType("nvarchar").IsOptional().HasMaxLength(128);
+            Property(x => x.ModifiedOn).HasColumnName(@"ModifiedOn").HasColumnType("datetime2").IsOptional();
+            Property(x => x.DeletedBy).HasColumnName(@"DeletedBy").HasColumnType("nvarchar").IsOptional().HasMaxLength(128);
+            Property(x => x.DeletedOn).HasColumnName(@"DeletedOn").HasColumnType("datetime2").IsOptional();
+            Property(x => x.Status).HasColumnName(@"Status").HasColumnType("int").IsRequired();
+
+            // Foreign keys
+            HasRequired(a => a.Battle).WithMany(b => b.BattleTurns).HasForeignKey(c => c.BattleId).WillCascadeOnDelete(false); // FK_BattleTurn_Battle
         }
     }
 
